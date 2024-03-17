@@ -35,7 +35,7 @@ class _FavouriteListItemScreenState extends State<FavouriteListItemScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
-        title: Text('Favourite Items'),
+        title: Center(child: Text('Favourite Items')),
         actions: [
           InkWell(
             onTap: (){},
@@ -50,7 +50,10 @@ class _FavouriteListItemScreenState extends State<FavouriteListItemScreen> {
           padding: const EdgeInsets.only(bottom: 8.0, left: 8.0,right: 8.0),
           child: ListTile(
             tileColor: Colors.pink.shade50,
-            trailing: IconButton(onPressed: (){}, icon: Icon(Icons.favorite)),
+            trailing: IconButton(onPressed: ()async{
+             await Preferences.removeItem(index);
+             await getFavourite();
+            }, icon: Icon(Icons.delete, color: Colors.pink,)),
             subtitle: Text(listFavourite[index]["price"]),
             title: Text(listFavourite[index]["name"]),
           leading: CircleAvatar(backgroundImage: NetworkImage(listFavourite[index]["image"]),),

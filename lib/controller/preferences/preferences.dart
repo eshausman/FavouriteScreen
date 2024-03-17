@@ -24,7 +24,7 @@ class Preferences {
 
 
 
-  static addItem(context,Map item)async{
+  static addItem(context,Map item, index)async{
     SharedPreferences pref = await SharedPreferences.getInstance();
     var list = await getItem();
     bool isFound = false;
@@ -36,7 +36,10 @@ class Preferences {
     }
 
     if(isFound){
-      const snackBar = SnackBar(content: Text("Already Added"),
+      
+      list.removeAt(index);
+      pref.setString(favouriteKey, jsonEncode(list));
+      const snackBar = SnackBar(content: Text("Item removed"),
       backgroundColor: Color.fromARGB(255, 255, 149, 184),);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
   
@@ -62,5 +65,14 @@ class Preferences {
     else{
       return [];
     }
+  }
+
+  static removeItem(index)async{
+   SharedPreferences pref = await SharedPreferences.getInstance();
+
+   var list = await getItem();
+    list.removeAt(index);
+
+    pref.setString(favouriteKey, jsonEncode(list));
   }
 }
